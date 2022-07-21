@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { program } from 'commander';
 import CompressImages from './CompressImages.js';
 
@@ -7,7 +8,7 @@ program
   .name('compress')
   .description('Compress images quickily.')
   .argument('<directory>', 'Directory of images to compress.')
-  .option('-d, --delete', 'Delete the images after compressed.')
+  .option('-d --delete', 'Delete the images after compressed.')
   .option('-q --quality <integer>',  'JPEG Quality.', 70)
   .option('-c --concurrency <integer>', 'The number of concurrent images to compress.', 8)
   .option('-p --prefix <string>', 'Add a prefix to the compressed files.')

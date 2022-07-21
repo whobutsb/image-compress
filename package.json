@@ -2,12 +2,11 @@
   "name": "imagecom",
   "version": "1.0.0",
   "type": "module",
-  "description": "",
+  "description": "Compress JPEG images quickily",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.7.2",
@@ -16,5 +15,8 @@
     "date-fns": "^2.28.0",
     "mozjpeg": "^8.0.0",
     "progress": "^2.0.3"
+  },
+  "bin": {
+    "imagecom": "./index.js"
   }
 }

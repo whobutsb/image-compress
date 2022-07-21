@@ -17,12 +17,14 @@ export default class CompressImages {
     this.compressed_size = 0;
     this.total_images = 0;
     this.start_time = new Date();
-    this.end_time = new Date();
   }
 
   async handle(){
     const tasks = await this.buildTasks(this.directory);
+
     if(!tasks.length){ log(chalk.red('No images to compress. Exiting.')); return; }
+
+    this.total_images = tasks.length;
 
     this.progress = new ProgressBar(`:bar :current/:total Elapsed: :elapseds ETA: :etas`, { 
       width: 40,
@@ -31,7 +33,6 @@ export default class CompressImages {
       incomplete: '\u001b[41m \u001b[0m',
     });
 
-    this.total_images = tasks.length;
     log(`
       ${chalk.bold('Directory:')} ${chalk.white(this.directory)}
       ${chalk.bold('Total Images:')} ${chalk.white(this.total_images)}
@@ -45,8 +46,10 @@ export default class CompressImages {
       return this.handleJPEG(job.fileName, job.filePath, job.directory);
     }, {concurrency: this.options.concurrency});  
 
-    this.end_time = new Date();
-    const { minutes, seconds } = this.elapsedTime();
+    const { minutes, seconds } = intervalToDuration({ 
+      start: this.start_time, 
+      end: new Date() 
+    });
 
     log(chalk.green(`
       Total Images: ${this.total_images}
@@ -55,10 +58,6 @@ export default class CompressImages {
       Compressed Percentage: ${this.savedPercentage()}%
       Elapsed Time: ${minutes}:${seconds}
     `));
-  }
-
-  elapsedTime(){
-    return intervalToDuration({ start: this.start_time, end: this.end_time });
   }
 
   savedPercentage(){
